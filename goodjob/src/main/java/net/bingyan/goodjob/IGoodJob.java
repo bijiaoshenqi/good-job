@@ -52,7 +52,7 @@ public interface IGoodJob {
      *
      * @param text  需要显示的字，例如：+1
      * @param color 字体的颜色
-     * @param sp    字体大小，sp
+     * @param sp    字体大小，sp size
      * @return itself for chained calls
      */
     IGoodJob setEffectIsText(@NonNull String text, @ColorInt int color, float sp);

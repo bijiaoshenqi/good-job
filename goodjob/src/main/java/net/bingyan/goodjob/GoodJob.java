@@ -152,7 +152,7 @@ public class GoodJob implements IGoodJob, Runnable {
         TextView textView = new TextView(context);
         textView.setText(text);
         textView.setTextColor(color);
-        textView.setTextSize(sp);
+        textView.setTextSize(DisplayUtil.sp2px(context,sp));
         return setEffectIsView(textView);
     }
 
