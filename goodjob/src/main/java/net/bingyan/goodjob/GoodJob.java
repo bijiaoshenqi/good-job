@@ -1,17 +1,15 @@
 package net.bingyan.goodjob;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.PopupWindowCompat;
 import android.support.v4.widget.Space;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -26,7 +24,7 @@ import net.bingyan.goodjob.path.StraightLineAnimation;
 /**
  * @author Chris Wong
  */
-public class GoodJob implements IGoodJob {
+public class GoodJob implements IGoodJob, Runnable {
     private static final String TAG = GoodJob.class.getSimpleName();
 
     private static final int DEFAULT_DURATION = 1500;
@@ -34,6 +32,7 @@ public class GoodJob implements IGoodJob {
     private static final IAnimation DEFAULT_ANIMATION = new StraightLineAnimation(0, -60);
 
     private Context context; // application context in case of memory leak
+    private Handler handler;
 
     private PopupWindow popupWindow;
     private View contentView;
@@ -41,8 +40,13 @@ public class GoodJob implements IGoodJob {
     private Interpolator interpolator;
     private IAnimation animation;
 
+    private View target;
+    private boolean isShowing;
+    private long startTime;
+
     public GoodJob(@NonNull Context context) {
         this.context = context.getApplicationContext();
+        handler = new Handler(Looper.getMainLooper());
 
         contentView = new Space(context);
         duration = DEFAULT_DURATION;
@@ -50,10 +54,16 @@ public class GoodJob implements IGoodJob {
         animation = DEFAULT_ANIMATION;
     }
 
-
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void show(@NonNull View target) {
-        if (popupWindow != null) return;
+        if (isShowing) return;
+        if (target == null) {
+            throw new NullPointerException("Goodjob show target==null");
+        }
+        this.target = target;
+        startTime = System.currentTimeMillis();
+        isShowing = true;
 
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -64,13 +74,47 @@ public class GoodJob implements IGoodJob {
         popupWindow.setFocusable(false);
         popupWindow.setTouchable(false);
         popupWindow.setOutsideTouchable(false);
-        popupWindow.showAsDropDown(target, 0, 0);
+
+        int[] location = new int[2];
+        target.getLocationOnScreen(location);
+        int x = location[0] - (contentView.getWidth() - target.getMeasuredWidth()) / 2;
+        int y = location[1];
+
+        popupWindow.showAtLocation((View) target.getParent(), Gravity.NO_GRAVITY, x, y);
+        handler.post(this);
     }
 
+    @Override
+    public void run() {
+        if (!isShowing) return;
+
+        float percent = 1;
+        if (duration != 0) {
+            percent = interpolator.getInterpolation((System.currentTimeMillis() - startTime) * 1.0f / duration);
+        }
+        if (percent > 1) {
+            cancel();
+            return;
+        }
+
+        animation.calculate(percent);
+
+        int[] location = new int[2];
+        target.getLocationOnScreen(location);
+        int x = location[0] - (contentView.getWidth() - target.getMeasuredWidth()) / 2;
+        int y = location[1];
+
+        contentView.setAlpha(animation.getAlpha());
+        popupWindow.update(x, y, popupWindow.getWidth(), popupWindow.getHeight());
+
+        handler.post(this);
+    }
 
     @Override
     public void cancel() {
-
+        isShowing = false;
+        target = null;
+        popupWindow.dismiss();
     }
 
     @SuppressWarnings("ConstantConditions")
