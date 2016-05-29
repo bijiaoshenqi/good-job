@@ -74,7 +74,7 @@ public interface IGoodJob {
     IGoodJob setDuration(int duration);
 
     /**
-     * 设置动画的Interpolator，默认{@link android.view.animation.DecelerateInterpolator}
+     * 设置动画的Interpolator，默认{@link android.view.animation.AccelerateInterpolator}
      *
      * @param interpolator 播放动画时用interpolator
      * @return itself for chained calls
@@ -96,7 +96,7 @@ public interface IGoodJob {
      * @param endOffsetY 最后停下来的相对y坐标
      * @return itself for chained calls
      */
-    IGoodJob setPathStraight(int endOffsetX, int endOffsetY);
+    IGoodJob setPathStraight(float endOffsetX, float endOffsetY);
 
 
 

@@ -1,8 +1,8 @@
 package net.bingyan.example;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -13,7 +13,7 @@ import net.bingyan.goodjob.IGoodJob;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.functions.Action1;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView mGood1;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(net.bingyan.goodjob.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         initGood1();
         initGood2();
@@ -42,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
         mGood1 = (ImageView) findViewById(R.id.activity_main_good_1);
         mGoodJobGood1 = null;
 
-        RxView.clicks(mGood1)
+        RxView.clicks(findViewById(R.id.activity_main_container_good_1))
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     if (mGoodJobGood1 == null) {
                         mGoodJobGood1 = new GoodJob(this)
+                                .setPathStraight(0, mGood1.getHeight() * (-2))
                                 .setEffectIsImage(R.mipmap.good_checked);
                     }
 
@@ -58,11 +61,14 @@ public class MainActivity extends AppCompatActivity {
         mGood2 = (ImageView) findViewById(R.id.activity_main_good_2);
         mGoodJobGood2 = null;
 
-        RxView.clicks(mGood2)
+        RxView.clicks(findViewById(R.id.activity_main_container_good_2))
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     if (mGoodJobGood2 == null) {
                         mGoodJobGood2 = new GoodJob(this)
+                                .setPathStraight(0, mGood2.getHeight() * (-2))
                                 .setEffectIsText("+1", Color.parseColor("#ff0000"), 12);
                     }
 
@@ -74,11 +80,14 @@ public class MainActivity extends AppCompatActivity {
         mBookmark = (ImageView) findViewById(R.id.activity_main_bookmark);
         mGoodJobBookmark = null;
 
-        RxView.clicks(mBookmark)
+        RxView.clicks(findViewById(R.id.activity_main_container_bookmark))
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     if (mGoodJobBookmark == null) {
                         mGoodJobBookmark = new GoodJob(this)
+                                .setPathStraight(0, mBookmark.getHeight() * (-2))
                                 .setEffectIsImage(R.mipmap.bookmark_checked);
                     }
 
@@ -90,11 +99,14 @@ public class MainActivity extends AppCompatActivity {
         mCollection = (ImageView) findViewById(R.id.activity_main_collection);
         mGoodJobCollection = null;
 
-        RxView.clicks(mCollection)
+        RxView.clicks(findViewById(R.id.activity_main_container_collection))
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     if (mGoodJobCollection == null) {
                         mGoodJobCollection = new GoodJob(this)
+                                .setPathStraight(0, mCollection.getHeight() * (-2))
                                 .setEffectIsImage(R.mipmap.collection_checked);
                     }
 
@@ -107,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
         RxView.clicks(target)
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     if (mGoodJobGood1 != null) {
                         mGoodJobGood1.cancel();

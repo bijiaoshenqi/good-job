@@ -23,45 +23,75 @@
         app:columnCount="2"
         app:rowCount="2">
 
-        <ImageView
-            android:id="@+id/activity_main_good_1"
+        <RelativeLayout
+            android:id="@+id/activity_main_container_good_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@mipmap/good"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1"/>
+            app:layout_rowWeight="1">
 
-        <ImageView
-            android:id="@+id/activity_main_good_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@mipmap/good"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"/>
+            <ImageView
+                android:id="@+id/activity_main_good_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerInside"
+                android:src="@mipmap/good"/>
 
-        <ImageView
-            android:id="@+id/activity_main_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@mipmap/bookmark"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"/>
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/activity_main_collection"
+        <RelativeLayout
+            android:id="@+id/activity_main_container_good_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:src="@mipmap/collection"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1"/>
+            app:layout_rowWeight="1">
+
+            <ImageView
+                android:id="@+id/activity_main_good_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerInside"
+                android:src="@mipmap/good"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/activity_main_container_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageView
+                android:id="@+id/activity_main_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerInside"
+                android:src="@mipmap/bookmark"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/activity_main_container_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageView
+                android:id="@+id/activity_main_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerInside"
+                android:src="@mipmap/collection"/>
+
+        </RelativeLayout>
 
     </android.support.v7.widget.GridLayout>
 

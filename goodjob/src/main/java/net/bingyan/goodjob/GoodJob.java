@@ -101,8 +101,8 @@ public class GoodJob implements IGoodJob, Runnable {
 
         int[] location = new int[2];
         target.getLocationOnScreen(location);
-        int x = location[0] - (contentView.getWidth() - target.getMeasuredWidth()) / 2;
-        int y = location[1];
+        int x = (int) (location[0] - (contentView.getWidth() - target.getMeasuredWidth()) / 2.0f + animation.getX());
+        int y = (int) (location[1] + animation.getY());
 
         contentView.setAlpha(animation.getAlpha());
         popupWindow.update(x, y, popupWindow.getWidth(), popupWindow.getHeight());
@@ -186,7 +186,7 @@ public class GoodJob implements IGoodJob, Runnable {
     }
 
     @Override
-    public IGoodJob setPathStraight(int endOffsetX, int endOffsetY) {
+    public IGoodJob setPathStraight(float endOffsetX, float endOffsetY) {
         this.animation = new StraightLineAnimation(endOffsetX, endOffsetY);
         return this;
     }
