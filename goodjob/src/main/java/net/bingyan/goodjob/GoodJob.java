@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.Space;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,8 @@ import net.bingyan.goodjob.path.IAnimation;
 import net.bingyan.goodjob.path.StraightLineAnimation;
 
 /**
+ * 点赞的实际干活对象
+ *
  * @author Chris Wong
  */
 public class GoodJob implements IGoodJob, Runnable {
@@ -39,6 +42,8 @@ public class GoodJob implements IGoodJob, Runnable {
     private int duration;
     private Interpolator interpolator;
     private IAnimation animation;
+    private OnAnimationStartListener onAnimationStartListener;
+    private OnAnimationEndListener onAnimationEndListener;
 
     private View target;
     private boolean isShowing;
@@ -52,6 +57,8 @@ public class GoodJob implements IGoodJob, Runnable {
         duration = DEFAULT_DURATION;
         interpolator = DEFAULT_INTERPOLATOR;
         animation = DEFAULT_ANIMATION;
+        onAnimationStartListener = null;
+        onAnimationEndListener = null;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -82,6 +89,8 @@ public class GoodJob implements IGoodJob, Runnable {
 
         popupWindow.showAtLocation((View) target.getParent(), Gravity.NO_GRAVITY, x, y);
         handler.post(this);
+
+        if (onAnimationStartListener != null) onAnimationStartListener.onAnimationStart(this);
     }
 
     @Override
@@ -94,6 +103,7 @@ public class GoodJob implements IGoodJob, Runnable {
         }
         if (percent > 1) {
             cancel();
+            if (onAnimationEndListener != null) onAnimationEndListener.onAnimationEnd(this);
             return;
         }
 
@@ -188,6 +198,18 @@ public class GoodJob implements IGoodJob, Runnable {
     @Override
     public IGoodJob setPathStraight(float endOffsetX, float endOffsetY) {
         this.animation = new StraightLineAnimation(endOffsetX, endOffsetY);
+        return this;
+    }
+
+    @Override
+    public IGoodJob setAnimationStartListener(@Nullable OnAnimationStartListener listener) {
+        onAnimationStartListener = listener;
+        return this;
+    }
+
+    @Override
+    public IGoodJob setAnimationEndListener(@Nullable OnAnimationEndListener listener) {
+        onAnimationEndListener = listener;
         return this;
     }
 

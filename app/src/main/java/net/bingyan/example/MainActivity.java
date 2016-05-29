@@ -2,6 +2,7 @@ package net.bingyan.example;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     if (mGoodJobGood1 == null) {
                         mGoodJobGood1 = new GoodJob(this)
                                 .setPathStraight(0, mGood1.getHeight() * (-2))
+                                .setAnimationStartListener(goodJob -> mGood1.setImageResource(R.mipmap.good))
+                                .setAnimationEndListener(goodJob1 -> mGood1.setImageResource(R.mipmap.good_checked))
                                 .setEffectIsImage(R.mipmap.good_checked);
                     }
 
@@ -68,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(aVoid -> {
                     if (mGoodJobGood2 == null) {
                         mGoodJobGood2 = new GoodJob(this)
+                                .setAnimationStartListener(goodJob -> mGood2.setImageResource(R.mipmap.good))
+                                .setAnimationEndListener(goodJob1 -> mGood2.setImageResource(R.mipmap.good_checked))
                                 .setPathStraight(0, mGood2.getHeight() * (-2))
                                 .setEffectIsText("+1", Color.parseColor("#ff0000"), 12);
                     }
@@ -87,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(aVoid -> {
                     if (mGoodJobBookmark == null) {
                         mGoodJobBookmark = new GoodJob(this)
+                                .setAnimationStartListener(goodJob -> mBookmark.setImageResource(R.mipmap.bookmark))
+                                .setAnimationEndListener(goodJob1 -> mBookmark.setImageResource(R.mipmap.bookmark_checked))
                                 .setPathStraight(0, mBookmark.getHeight() * (-2))
                                 .setEffectIsImage(R.mipmap.bookmark_checked);
                     }
@@ -106,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(aVoid -> {
                     if (mGoodJobCollection == null) {
                         mGoodJobCollection = new GoodJob(this)
+                                .setAnimationStartListener(goodJob -> mCollection.setImageResource(R.mipmap.collection))
+                                .setAnimationEndListener(goodJob1 -> mCollection.setImageResource(R.mipmap.collection_checked))
                                 .setPathStraight(0, mCollection.getHeight() * (-2))
                                 .setEffectIsImage(R.mipmap.collection_checked);
                     }

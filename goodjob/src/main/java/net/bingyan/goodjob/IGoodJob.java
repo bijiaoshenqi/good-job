@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -98,6 +99,53 @@ public interface IGoodJob {
      */
     IGoodJob setPathStraight(float endOffsetX, float endOffsetY);
 
+    /**
+     * 设置动画开始前的回调
+     *
+     * @param listener 动画开始前的回调
+     * @return itself for chanined calls
+     */
+    IGoodJob setAnimationStartListener(@Nullable OnAnimationStartListener listener);
 
+    /**
+     * 设置动画结束后的动画
+     *
+     * @param listener 动画结束的回调
+     * @return itself for chained calls
+     */
+    IGoodJob setAnimationEndListener(@Nullable OnAnimationEndListener listener);
+
+    /**
+     * 动画开始的回调
+     * 单接口，方便lambda
+     *
+     * @see OnAnimationEndListener
+     */
+    interface OnAnimationStartListener {
+
+        /**
+         * 动画开始前调用
+         *
+         * @param goodJob
+         */
+        void onAnimationStart(@NonNull IGoodJob goodJob);
+    }
+
+    /**
+     * 动画结束的回调
+     * 单接口，方便lambda
+     *
+     * @see OnAnimationStartListener
+     */
+    interface OnAnimationEndListener {
+
+        /**
+         * 动画完成之后调用
+         *
+         * @param goodJob 标识是哪一个点赞
+         */
+        void onAnimationEnd(@NonNull IGoodJob goodJob);
+
+    }
 
 }
