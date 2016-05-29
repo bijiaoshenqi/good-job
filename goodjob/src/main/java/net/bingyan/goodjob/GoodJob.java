@@ -27,7 +27,7 @@ import net.bingyan.goodjob.path.StraightLineAnimation;
 public class GoodJob implements IGoodJob, Runnable {
     private static final String TAG = GoodJob.class.getSimpleName();
 
-    private static final int DEFAULT_DURATION = 1500;
+    private static final int DEFAULT_DURATION = 1000;
     private static final Interpolator DEFAULT_INTERPOLATOR = new AccelerateInterpolator();
     private static final IAnimation DEFAULT_ANIMATION = new StraightLineAnimation(0, -60);
 
