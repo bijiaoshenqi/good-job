@@ -1,5 +1,3 @@
-[TOC]
-
 # Good Job
 
 [![](https://jitpack.io/v/bijiaoshenqi/good-job.svg)](https://jitpack.io/#bijiaoshenqi/good-job)
